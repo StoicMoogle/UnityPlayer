@@ -8,15 +8,19 @@ public class PlayerController : MonoBehaviour
     Animator playerAnim;
 
     float speed;
-    public float walkSpeed = 8f;
-    public float runSpeed = 15f;
+    public float walkSpeed = 5f;
+    public float runSpeed = 12f;
     public float jumpForce = 5f;
+    public int maxHealth = 100;
+    public int currentHealth;
     bool canJump = true;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        currentHealth = maxHealth;
         playerRB = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
     }
@@ -67,6 +71,11 @@ public class PlayerController : MonoBehaviour
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             canJump = false;
         }
+
+        if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -74,6 +83,12 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.CompareTag("Ground"))
         {
             canJump = true;
+        }
+
+        if(collision.gameObject.CompareTag("Danger"))
+        {
+            currentHealth -= 20;
+            Destroy(collision.gameObject);
         }
     }
 }
