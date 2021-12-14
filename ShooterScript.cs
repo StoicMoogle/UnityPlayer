@@ -39,7 +39,17 @@ public class ShooterScript : MonoBehaviour
 
     void Reload()
     {
+    
+        if((currentAmmo + reserveAmmo) <= clipSize) 
+            {
+            currentAmmo += reserveAmmo;
+            reserveAmmo = 0;
+    
+            }    
+    
+       else {
             reserveAmmo -= (clipSize - currentAmmo);
             currentAmmo += (clipSize - currentAmmo);
+            }
     }
 }
